@@ -12,7 +12,18 @@ defmodule MiakTech.TelegramPoller do
   end
 
   def handle_info(:poll, state) do
-    updates    = Telegram.get_updates(state.offset)
+    updates = try do
+      Telegram.get_updates(state.offset)
+    rescue
+      e ->
+        schedule(5_000)
+        {:error, e}
+    end
+
+    if match?({:error, _}, updates) do
+      {:noreply, state}
+    else
+
     new_offset = Enum.reduce(updates, state.offset, fn update, _acc ->
       if msg = update["message"] do
         chat_id = msg["chat"]["id"]
@@ -80,7 +91,8 @@ defmodule MiakTech.TelegramPoller do
 
     schedule()
     {:noreply, %{state | offset: new_offset}}
+    end
   end
 
-  defp schedule, do: Process.send_after(self(), :poll, 1_000)
+  defp schedule(delay \\ 1_000), do: Process.send_after(self(), :poll, delay)
 end

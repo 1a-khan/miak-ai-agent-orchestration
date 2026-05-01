@@ -16,7 +16,7 @@ defmodule MiakTech.Application do
       MiakTech.MetricsPusher
     ]
 
-    opts   = [strategy: :one_for_one, name: MiakTech.Supervisor]
+    opts   = [strategy: :one_for_one, name: MiakTech.Supervisor, max_restarts: 20, max_seconds: 60]
     result = Supervisor.start_link(children, opts)
 
     # DB migrations + seed run after Postgrex is up
