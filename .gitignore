@@ -1,0 +1,25 @@
+# Secrets — never commit
+.env
+.env.docker
+*.secret
+
+# Elixir build artifacts
+_build/
+deps/
+*.ez
+
+# Erlang crash dumps
+erl_crash.dump
+
+# Mix
+.mix/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
