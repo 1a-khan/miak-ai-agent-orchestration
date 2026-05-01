@@ -9,4 +9,5 @@
 
 ### Added
 
+- `Grafana.push_error/2` — pushes error events to Loki with `type="error"` label; TelegramPoller network errors now appear in Grafana with component and reason fields
 - `docker-compose.yml` — defines `postgres` (postgres:16-alpine with healthcheck + named volume) and `app` services so the full stack can be started with a single command locally or via Coolify Docker Compose deploy; `DB_HOST` is pre-wired to the postgres service name so no manual config is needed

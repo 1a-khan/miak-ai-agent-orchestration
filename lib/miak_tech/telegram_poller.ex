@@ -16,6 +16,7 @@ defmodule MiakTech.TelegramPoller do
       Telegram.get_updates(state.offset)
     rescue
       e ->
+        MiakTech.Grafana.push_error("TelegramPoller", Exception.message(e))
         schedule(5_000)
         {:error, e}
     end

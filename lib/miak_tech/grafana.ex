@@ -13,6 +13,19 @@ defmodule MiakTech.Grafana do
     Task.start(fn -> do_push(agent, direction, "log", message) end)
   end
 
+  # ── Error / crash event ──────────────────────────────────────────────────────
+
+  def push_error(component, reason) do
+    Task.start(fn ->
+      message = Jason.encode!(%{
+        type:      "error",
+        component: component,
+        reason:    reason
+      })
+      do_push(component, "error", "error", message)
+    end)
+  end
+
   # ── Budget metric snapshot ────────────────────────────────────────────────────
 
   def push_budget_metrics(rows) do
