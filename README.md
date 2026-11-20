@@ -1,5 +1,7 @@
 # Miak Tech — AI Agent Orchestration System
 
+[![Build](https://github.com/1a-khan/miak-ai-agent-orchestration/actions/workflows/ci.yml/badge.svg)](https://github.com/1a-khan/miak-ai-agent-orchestration/actions/workflows/ci.yml)
+
 A self-hosted multi-agent AI system built in Elixir/OTP.
 Employees interact via Telegram. Agents handle emails, files, project proposals,
 and IT tasks autonomously. Every decision is logged to PostgreSQL.
@@ -16,7 +18,7 @@ of SaaS workflow tools.
 - Replaces manual email triage → Jordan classifies and routes emails automatically
 - Replaces Dropbox/SharePoint chaos → Aria uploads files to S3 with structured metadata
 - Replaces "forward this to the dev team" → CTO briefs IT department automatically
-- Replaces €2,000/month tools like UiPath → runs on your own VPS for ~$20/month
+- Runs self-hosted on a small VPS (~$20/month) instead of per-seat SaaS subscriptions; complements RPA tools such as UiPath rather than replacing them
 
 ---
 
