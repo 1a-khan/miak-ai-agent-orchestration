@@ -4,11 +4,11 @@ defmodule MiakTech.Agent.Programmer do
   alias MiakTech.{OpenAI, DB}
 
   @prompt "You are Alex, Senior Programmer at Miak Tech. " <>
-          "Skills: Elixir, Python, REST APIs, automation, databases. " <>
-          "Be concise (3-4 sentences max). Sign off as Alex (Programmer)."
+            "Skills: Elixir, Python, REST APIs, automation, databases. " <>
+            "Be concise (3-4 sentences max). Sign off as Alex (Programmer)."
 
   def start_link(_), do: GenServer.start_link(__MODULE__, [], name: __MODULE__)
-  def init(_),       do: {:ok, %{history: []}}
+  def init(_), do: {:ok, %{history: []}}
 
   def handle_task(task), do: GenServer.call(__MODULE__, {:task, task}, 30_000)
 

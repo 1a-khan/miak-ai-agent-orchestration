@@ -20,10 +20,10 @@ defmodule MiakTech.MixProject do
 
   defp deps do
     [
-      {:req,      "~> 0.5"},
-      {:jason,    "~> 1.4"},
+      {:req, "~> 0.5"},
+      {:jason, "~> 1.4"},
       {:postgrex, "~> 0.19"},
-      {:decimal,  "~> 2.1"}
+      {:decimal, "~> 2.1"}
     ]
   end
 end

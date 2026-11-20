@@ -17,11 +17,13 @@ defmodule MiakTech.Grafana do
 
   def push_error(component, reason) do
     Task.start(fn ->
-      message = Jason.encode!(%{
-        type:      "error",
-        component: component,
-        reason:    reason
-      })
+      message =
+        Jason.encode!(%{
+          type: "error",
+          component: component,
+          reason: reason
+        })
+
       do_push(component, "error", "error", message)
     end)
   end
@@ -33,18 +35,19 @@ defmodule MiakTech.Grafana do
       Enum.each(rows, fn [name, total, used] ->
         if name != "TOTAL" do
           total_f = Decimal.to_float(total)
-          used_f  = Decimal.to_float(used)
+          used_f = Decimal.to_float(used)
           remaining = Float.round(total_f - used_f, 6)
           pct = if total_f > 0, do: Float.round(used_f / total_f * 100, 2), else: 0.0
 
-          message = Jason.encode!(%{
-            type:          "metric",
-            agent:         name,
-            budget_used:   used_f,
-            budget_total:  total_f,
-            budget_remaining: remaining,
-            budget_pct:    pct
-          })
+          message =
+            Jason.encode!(%{
+              type: "metric",
+              agent: name,
+              budget_used: used_f,
+              budget_total: total_f,
+              budget_remaining: remaining,
+              budget_pct: pct
+            })
 
           do_push(name, "metric", "metric", message)
         end
@@ -55,22 +58,24 @@ defmodule MiakTech.Grafana do
   # ── Internal push to Loki ────────────────────────────────────────────────────
 
   defp do_push(agent, direction, type, message) do
-    cfg       = Application.fetch_env!(:miak_tech, __MODULE__)
-    url       = cfg[:loki_url] <> "/loki/api/v1/push"
-    user      = cfg[:loki_user]
-    api_key   = cfg[:api_key]
+    cfg = Application.fetch_env!(:miak_tech, __MODULE__)
+    url = cfg[:loki_url] <> "/loki/api/v1/push"
+    user = cfg[:loki_user]
+    api_key = cfg[:api_key]
     timestamp = System.os_time(:nanosecond) |> Integer.to_string()
 
     body = %{
-      streams: [%{
-        stream: %{
-          service:   "miak-tech",
-          agent:     agent,
-          direction: direction,
-          type:      type
-        },
-        values: [[timestamp, message]]
-      }]
+      streams: [
+        %{
+          stream: %{
+            service: "miak-tech",
+            agent: agent,
+            direction: direction,
+            type: type
+          },
+          values: [[timestamp, message]]
+        }
+      ]
     }
 
     Req.post(url,

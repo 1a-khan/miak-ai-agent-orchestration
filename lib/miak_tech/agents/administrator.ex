@@ -4,11 +4,11 @@ defmodule MiakTech.Agent.Administrator do
   alias MiakTech.{OpenAI, DB}
 
   @prompt "You are Sara, System Administrator at Miak Tech. " <>
-          "Skills: Linux, Docker, deployments, networking, monitoring, Grafana. " <>
-          "Be concise (3-4 sentences max). Sign off as Sara (Administrator)."
+            "Skills: Linux, Docker, deployments, networking, monitoring, Grafana. " <>
+            "Be concise (3-4 sentences max). Sign off as Sara (Administrator)."
 
   def start_link(_), do: GenServer.start_link(__MODULE__, [], name: __MODULE__)
-  def init(_),       do: {:ok, %{history: []}}
+  def init(_), do: {:ok, %{history: []}}
 
   def handle_task(task), do: GenServer.call(__MODULE__, {:task, task}, 30_000)
 

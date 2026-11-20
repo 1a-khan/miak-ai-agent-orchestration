@@ -10,10 +10,11 @@ defmodule MiakTech.Department.IT do
   end
 
   def handle_task(task) do
-    prog  = Task.async(fn -> Programmer.handle_task(task) end)
+    prog = Task.async(fn -> Programmer.handle_task(task) end)
     admin = Task.async(fn -> Administrator.handle_task(task) end)
+
     %{
-      programmer:    Task.await(prog,  30_000),
+      programmer: Task.await(prog, 30_000),
       administrator: Task.await(admin, 30_000)
     }
   end
